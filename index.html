@@ -101,6 +101,8 @@
 
         main.swiper-container {
             flex-grow: 1;
+            /* FIX: Properti ini penting agar anak flexbox (yaitu swiper-slide) tahu batas tingginya dan bisa scroll */
+            min-height: 0;
         }
         .swiper-wrapper {
             height: 100%;
