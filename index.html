@@ -171,7 +171,7 @@
 
         /* 4. Komponen & Kartu */
         .card {
-            background-color: var(--bg-light);
+            background-color: var(--card-light);
             border-radius: 0.75rem;
             padding: 1rem;
             margin-bottom: 1rem;
@@ -294,8 +294,39 @@
             border-radius: 4px;
             transition: width 0.5s ease-in-out;
         }
+        #notepad-textarea {
+            width: 100%;
+            height: 100px;
+            border: none;
+            background-color: transparent;
+            font-family: 'Poppins', sans-serif;
+            color: inherit;
+            resize: none;
+        }
 
         /* Jadwal */
+        .day-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 0 1.5rem 1rem;
+        }
+        .day-button {
+            padding: 0.5rem 1rem;
+            border: 1px solid #D1D5DB;
+            background-color: var(--card-light);
+            border-radius: 999px;
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        body.dark .day-button { background-color: var(--card-dark); border-color: #4B5563; }
+        .day-button.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
         .schedule-list .item {
             display: flex;
             align-items: center;
@@ -305,12 +336,16 @@
             font-weight: 600;
             color: var(--primary);
             text-align: center;
+            min-width: 50px;
         }
         .schedule-list .details { flex-grow: 1; }
         .schedule-list .details p { margin: 0; }
         .schedule-list .title { font-weight: 600; }
         .schedule-list .location { font-size: 0.875rem; color: var(--text-light-secondary); }
         body.dark .schedule-list .location { color: var(--text-dark-secondary); }
+        #schedule-container p { text-align: center; color: var(--text-light-secondary); }
+        body.dark #schedule-container p { color: var(--text-dark-secondary); }
+
 
         /* Komunitas */
         #komunitas-feed { padding: 0 1.5rem; }
@@ -347,6 +382,7 @@
             display: flex;
             align-items: center;
             gap: 1rem;
+            cursor: pointer;
         }
         .workout-card .icon-container {
             padding: 1rem;
@@ -363,6 +399,16 @@
             color: var(--text-light-secondary);
         }
         body.dark .workout-card .details p { color: var(--text-dark-secondary); }
+        .video-placeholder {
+            width: 100%;
+            height: 200px;
+            background-color: #000;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
 
 
         /* Profil */
@@ -395,7 +441,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: transform 0.3s ease, opacity 0.3s ease;
+            transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s;
         }
 
         /* 6. Modal */
@@ -528,6 +574,11 @@
                                 </div>
                             </div>
                             <div style="padding: 0 1.5rem;">
+                                <!-- Catatan Cepat -->
+                                <div class="card">
+                                    <h2 style="font-size: 1.25rem; font-weight: 700; margin-top:0; margin-bottom: 1rem;">Catatan Cepat</h2>
+                                    <textarea id="notepad-textarea" placeholder="Tulis pengingat atau ide di sini..."></textarea>
+                                </div>
                                 <!-- Kartu Interaktif Minum Air -->
                                 <div id="water-card" class="card">
                                     <div style="display: flex; align-items: center; gap: 1rem;">
@@ -537,6 +588,20 @@
                                             <p id="water-streak" style="margin:0; font-size: 0.8rem; color: var(--accent-dark); font-weight: 600;"></p>
                                         </div>
                                         <button id="water-button" class="button" style="background-color: transparent; border: 1px solid var(--accent-dark); color: var(--accent-dark); padding: 0.25rem 0.75rem; font-size: 0.8rem;">Sudah</button>
+                                    </div>
+                                </div>
+                                 <!-- Target & Pertumbuhan -->
+                                <div>
+                                    <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem;">Target & Pertumbuhan</h2>
+                                    <div id="savings-card-trigger" class="card" style="cursor: pointer;">
+                                        <div style="display: flex; align-items: center; gap: 1rem;">
+                                            <div style="padding: 0.75rem; background-color: var(--accent); border-radius: 0.5rem;"><i data-lucide="piggy-bank" style="color: var(--primary-dark);"></i></div>
+                                            <div style="flex-grow: 1;">
+                                                <p id="savings-target-name-display" style="font-weight: 600; margin:0;">Tabungan Laptop Baru</p>
+                                                <p id="savings-progress-text" style="font-size: 0.875rem; color: var(--text-light-secondary); margin:0;">Rp 4.5Jt / Rp 12Jt</p>
+                                                <div class="progress-bar-container"><div id="savings-progress-bar" class="progress-bar"></div></div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <!-- Finansial -->
@@ -552,20 +617,6 @@
                                         <p style="margin:0; font-size: 1.25rem; font-weight: 700;">Transaksi</p>
                                     </div>
                                 </div>
-                                <!-- Target & Pertumbuhan -->
-                                <div>
-                                    <h2 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem;">Target & Pertumbuhan</h2>
-                                    <div id="savings-card-trigger" class="card" style="cursor: pointer;">
-                                        <div style="display: flex; align-items: center; gap: 1rem;">
-                                            <div style="padding: 0.75rem; background-color: var(--accent); border-radius: 0.5rem;"><i data-lucide="laptop" style="color: var(--primary-dark);"></i></div>
-                                            <div style="flex-grow: 1;">
-                                                <p style="font-weight: 600; margin:0;">Tabungan Laptop Baru</p>
-                                                <p id="savings-progress-text" style="font-size: 0.875rem; color: var(--text-light-secondary); margin:0;">Rp 4.5Jt / Rp 12Jt</p>
-                                                <div class="progress-bar-container"><div id="savings-progress-bar" class="progress-bar"></div></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -573,11 +624,12 @@
                     <!-- Slide 2: Jadwal -->
                     <div class="swiper-slide ascenda-scrollbar">
                         <div id="jadwal" style="padding-bottom: 6rem;">
-                            <div class="page-header"><h1 class="page-title-primary">Jadwal Hari Ini</h1><p>Semua kegiatanmu dalam satu tempat.</p></div>
-                            <div class="schedule-list" style="padding: 0 1.5rem;">
-                                <div class="item card"><div class="time">13:00<br>14:40</div><div class="details"><p class="title">Kelas Basis Data</p><p class="location">Gedung C, R301</p></div></div>
-                                <div class="item card"><div class="time">15:00<br>15:30</div><div class="details"><p class="title">Bimbingan dengan Dosen</p><p class="location">Online via GMeet</p></div></div>
-                                <div class="item card"><div class="time">19:00<br>21:00</div><div class="details"><p class="title">Rapat Himpunan</p><p class="location">Sekretariat HMTK</p></div></div>
+                            <div class="page-header"><h1 class="page-title-primary">Jadwal Mingguan</h1><p>Semua kegiatanmu dalam satu tempat.</p></div>
+                            <div class="day-selector">
+                                <!-- Akan diisi oleh JS -->
+                            </div>
+                            <div id="schedule-container" class="schedule-list" style="padding: 0 1.5rem;">
+                                <!-- Jadwal akan dirender di sini oleh JS -->
                             </div>
                         </div>
                     </div>
@@ -625,15 +677,15 @@
                         <div id="olahraga" style="padding-bottom: 6rem;">
                             <div class="page-header"><h1 class="page-title-primary">Tetap Bugar</h1><p>Rekomendasi aktivitas untukmu.</p></div>
                             <div style="padding: 0 1.5rem;">
-                                <div class="card workout-card">
+                                <div class="card workout-card" data-title="Jalan Cepat 15 Menit">
                                     <div class="icon-container"><i data-lucide="heart-pulse" style="color: var(--primary-dark);"></i></div>
                                     <div class="details"><h3>Jalan Cepat 15 Menit</h3><p>Segarkan pikiran di sekitar kampus.</p></div>
                                 </div>
-                                <div class="card workout-card">
+                                <div class="card workout-card" data-title="Latihan Pernapasan">
                                     <div class="icon-container"><i data-lucide="wind" style="color: var(--primary-dark);"></i></div>
                                     <div class="details"><h3>Latihan Pernapasan</h3><p>Kurangi stres sebelum ujian.</p></div>
                                 </div>
-                                 <div class="card workout-card">
+                                 <div class="card workout-card" data-title="Push-up & Sit-up">
                                     <div class="icon-container"><i data-lucide="weight-lifter" style="color: var(--primary-dark);"></i></div>
                                     <div class="details"><h3>Push-up & Sit-up</h3><p>Bangun kekuatan inti di sela waktu.</p></div>
                                 </div>
@@ -652,6 +704,14 @@
                                 <div class="item">
                                     <i data-lucide="user-cog" style="color:var(--primary)"></i>
                                     <p>Pengaturan Akun</p>
+                                </div>
+                                <div id="set-budget-trigger" class="item">
+                                    <i data-lucide="coins" style="color:var(--primary)"></i>
+                                    <p>Atur Budget Bulanan</p>
+                                </div>
+                                 <div id="edit-savings-trigger" class="item">
+                                    <i data-lucide="piggy-bank" style="color:var(--primary)"></i>
+                                    <p>Atur Target Tabungan</p>
                                 </div>
                                 <div class="item">
                                     <i data-lucide="bell" style="color:var(--primary)"></i>
@@ -707,6 +767,72 @@
             </div>
         </div>
     </div>
+
+    <div id="add-schedule-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Tambah Jadwal Baru</h2>
+                <button class="close-button" data-target-modal="add-schedule-modal"><i data-lucide="x"></i></button>
+            </div>
+            <form id="add-schedule-form">
+                <div class="input-group">
+                    <label for="schedule-title">Nama Kegiatan</label>
+                    <input type="text" id="schedule-title" class="input-field" required>
+                </div>
+                 <div class="input-group">
+                    <label for="schedule-location">Lokasi</label>
+                    <input type="text" id="schedule-location" class="input-field">
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="input-group">
+                        <label for="schedule-start-time">Mulai</label>
+                        <input type="time" id="schedule-start-time" class="input-field" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="schedule-end-time">Selesai</label>
+                        <input type="time" id="schedule-end-time" class="input-field" required>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="submit" class="button button-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div id="edit-savings-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Atur Target Tabungan</h2>
+                <button class="close-button" data-target-modal="edit-savings-modal"><i data-lucide="x"></i></button>
+            </div>
+            <form id="edit-savings-form">
+                <div class="input-group">
+                    <label for="savings-target-name">Nama Target</label>
+                    <input type="text" id="savings-target-name" class="input-field" required>
+                </div>
+                <div class="input-group">
+                    <label for="savings-target-amount">Jumlah Target (Rp)</label>
+                    <input type="number" id="savings-target-amount" class="input-field" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="submit" class="button button-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+     <div id="workout-video-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="workout-title"></h2>
+                <button class="close-button" data-target-modal="workout-video-modal"><i data-lucide="x"></i></button>
+            </div>
+            <div class="video-placeholder">
+                <i data-lucide="play-circle" style="width: 48px; height: 48px;"></i>
+            </div>
+        </div>
+    </div>
     
     <div id="add-transaction-modal" class="modal-overlay">
         <div class="modal-content">
@@ -718,6 +844,24 @@
                 <div class="input-group">
                     <label for="transaction-amount">Jumlah (Rp)</label>
                     <input type="number" id="transaction-amount" class="input-field" placeholder="Contoh: 15000" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="submit" class="button button-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div id="set-budget-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Atur Budget Bulanan</h2>
+                <button class="close-button" data-target-modal="set-budget-modal"><i data-lucide="x"></i></button>
+            </div>
+            <form id="set-budget-form">
+                <div class="input-group">
+                    <label for="budget-amount">Budget Bulanan (Rp)</label>
+                    <input type="number" id="budget-amount" class="input-field" placeholder="Contoh: 1500000" required>
                 </div>
                 <div class="modal-actions">
                     <button type="submit" class="button button-primary">Simpan</button>
@@ -767,6 +911,7 @@
             const loginForm = document.getElementById('login-form');
             const fabButton = document.getElementById('fab-button');
             const logoutButton = document.getElementById('logout-button');
+            const notepad = document.getElementById('notepad-textarea');
 
             // --- Logika Tema ---
             const themeCheckbox = document.getElementById('theme-checkbox');
@@ -812,13 +957,23 @@
             const swiper = new Swiper('.swiper-container', {
                 on: { slideChange: function () { 
                     updateActiveNavItem(this.activeIndex);
-                    fabButton.style.display = this.activeIndex === 2 ? 'flex' : 'none';
-                    fabButton.style.transform = this.activeIndex === 2 ? 'scale(1)' : 'scale(0)';
+                    const isJadwal = this.activeIndex === 1;
+                    const isKomunitas = this.activeIndex === 2;
+                    
+                    fabButton.style.display = (isJadwal || isKomunitas) ? 'flex' : 'none';
+                    fabButton.style.transform = (isJadwal || isKomunitas) ? 'scale(1)' : 'scale(0)';
+
+                    if (isJadwal) {
+                        fabButton.innerHTML = `<i data-lucide="calendar-plus" style="width: 32px; height: 32px;"></i>`;
+                    } else if (isKomunitas) {
+                        fabButton.innerHTML = `<i data-lucide="plus" style="width: 32px; height: 32px;"></i>`;
+                    }
+                    lucide.createIcons();
                 }}
             });
 
             function updateActiveNavItem(index) {
-                navItems.forEach((item, i) => {
+                navItems.forEach((item) => {
                     const realIndex = parseInt(item.getAttribute('data-index'));
                     if (realIndex === index) item.classList.add('active');
                     else item.classList.remove('active');
@@ -855,9 +1010,11 @@
             
             // --- Logika Aplikasi Utama ---
             function initializeAppData() {
-                updateSavingsUI();
+                loadSavingsData();
                 checkWaterStatus();
-                updateBudgetUI();
+                loadBudget();
+                initializeNotepad();
+                initializeSchedule();
             }
 
             // --- Format Mata Uang Helper ---
@@ -867,16 +1024,47 @@
                 return `Rp ${amount}`;
             }
 
+            // --- Logika Notepad ---
+            function initializeNotepad() {
+                const savedNotes = localStorage.getItem('ascenda-notepad');
+                if (savedNotes) {
+                    notepad.value = savedNotes;
+                }
+                notepad.addEventListener('input', () => {
+                    localStorage.setItem('ascenda-notepad', notepad.value);
+                });
+            }
+
             // --- Logika Keuangan ---
             const addTransactionModal = document.getElementById('add-transaction-modal');
             const addTransactionTrigger = document.getElementById('add-transaction-trigger');
             const addTransactionForm = document.getElementById('add-transaction-form');
             const transactionAmountInput = document.getElementById('transaction-amount');
             const currentBudgetText = document.getElementById('current-budget-text');
-            let currentBudget = 75000;
+            const setBudgetModal = document.getElementById('set-budget-modal');
+            const setBudgetTrigger = document.getElementById('set-budget-trigger');
+            const setBudgetForm = document.getElementById('set-budget-form');
+            const budgetAmountInput = document.getElementById('budget-amount');
+
+            let totalBudget = 1500000;
+            let remainingBudget = 1500000;
 
             function updateBudgetUI() {
-                currentBudgetText.textContent = formatCurrency(currentBudget);
+                currentBudgetText.textContent = formatCurrency(remainingBudget);
+            }
+
+            function loadBudget() {
+                const savedTotal = localStorage.getItem('ascenda-total-budget');
+                const savedRemaining = localStorage.getItem('ascenda-remaining-budget');
+
+                if (savedTotal) totalBudget = parseInt(savedTotal);
+                
+                if (savedRemaining) {
+                    remainingBudget = parseInt(savedRemaining);
+                } else {
+                    remainingBudget = totalBudget;
+                }
+                updateBudgetUI();
             }
 
             addTransactionTrigger.addEventListener('click', () => openModal(addTransactionModal));
@@ -885,10 +1073,29 @@
                 e.preventDefault();
                 const amount = parseInt(transactionAmountInput.value);
                 if (!isNaN(amount) && amount > 0) {
-                    currentBudget -= amount;
+                    remainingBudget -= amount;
+                    localStorage.setItem('ascenda-remaining-budget', remainingBudget);
                     updateBudgetUI();
                     transactionAmountInput.value = '';
                     closeModal(addTransactionModal);
+                }
+            });
+
+            setBudgetTrigger.addEventListener('click', () => {
+                budgetAmountInput.value = totalBudget;
+                openModal(setBudgetModal);
+            });
+
+            setBudgetForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const newTotalBudget = parseInt(budgetAmountInput.value);
+                if (!isNaN(newTotalBudget) && newTotalBudget >= 0) {
+                    totalBudget = newTotalBudget;
+                    remainingBudget = newTotalBudget;
+                    localStorage.setItem('ascenda-total-budget', totalBudget);
+                    localStorage.setItem('ascenda-remaining-budget', remainingBudget);
+                    updateBudgetUI();
+                    closeModal(setBudgetModal);
                 }
             });
 
@@ -911,7 +1118,7 @@
                 } else {
                     const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
                     if (lastLog !== yesterday) {
-                        streak = 0; // Reset streak jika bolos
+                        streak = 0;
                         localStorage.setItem('ascenda-water-streak', '0');
                     }
                     waterText.textContent = "Sudah minum cukup air hari ini?";
@@ -928,23 +1135,119 @@
                 
                 localStorage.setItem('ascenda-water-log', today);
                 localStorage.setItem('ascenda-water-streak', streak);
-                checkWaterStatus(); // Update UI
+                checkWaterStatus();
+            });
+            
+            // --- Logika Jadwal ---
+            const daySelector = document.querySelector('.day-selector');
+            const scheduleContainer = document.getElementById('schedule-container');
+            const addScheduleModal = document.getElementById('add-schedule-modal');
+            const addScheduleForm = document.getElementById('add-schedule-form');
+            const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            let currentDay = days[new Date().getDay()].toLowerCase();
+            
+            let schedules = JSON.parse(localStorage.getItem('ascenda-schedules')) || {
+                senin: [ {startTime: '13:00', endTime: '14:40', title: 'Kelas Basis Data', location: 'Gedung C, R301'} ],
+                selasa: [], rabu: [], kamis: [], jumat: [], sabtu: [], minggu: []
+            };
+
+            function renderSchedule(day) {
+                scheduleContainer.innerHTML = '';
+                const daySchedules = schedules[day] || [];
+                daySchedules.sort((a, b) => a.startTime.localeCompare(b.startTime));
+
+                if (daySchedules.length === 0) {
+                    scheduleContainer.innerHTML = `<p>Tidak ada jadwal untuk hari ini.</p>`;
+                    return;
+                }
+
+                daySchedules.forEach(item => {
+                    const scheduleEl = document.createElement('div');
+                    scheduleEl.className = 'item card';
+                    scheduleEl.innerHTML = `
+                        <div class="time">${item.startTime}<br>${item.endTime}</div>
+                        <div class="details">
+                            <p class="title">${item.title}</p>
+                            <p class="location">${item.location}</p>
+                        </div>`;
+                    scheduleContainer.appendChild(scheduleEl);
+                });
+            }
+
+            function initializeSchedule() {
+                daySelector.innerHTML = ''; // Clear previous buttons
+                days.forEach(dayName => {
+                    const dayKey = dayName.toLowerCase();
+                    const button = document.createElement('button');
+                    button.className = 'day-button';
+                    button.textContent = dayName;
+                    button.dataset.day = dayKey;
+                    if (dayKey === currentDay) {
+                        button.classList.add('active');
+                    }
+                    button.addEventListener('click', () => {
+                        document.querySelector('.day-button.active').classList.remove('active');
+                        button.classList.add('active');
+                        currentDay = dayKey;
+                        renderSchedule(currentDay);
+                    });
+                    daySelector.appendChild(button);
+                });
+                renderSchedule(currentDay);
+            }
+
+            addScheduleForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const newSchedule = {
+                    title: document.getElementById('schedule-title').value,
+                    location: document.getElementById('schedule-location').value,
+                    startTime: document.getElementById('schedule-start-time').value,
+                    endTime: document.getElementById('schedule-end-time').value,
+                };
+                schedules[currentDay].push(newSchedule);
+                localStorage.setItem('ascenda-schedules', JSON.stringify(schedules));
+                renderSchedule(currentDay);
+                addScheduleForm.reset();
+                closeModal(addScheduleModal);
             });
 
-            
-            // --- Logika Tambah Tabungan ---
+            // --- Logika Olahraga ---
+            const workoutCards = document.querySelectorAll('.workout-card');
+            const workoutVideoModal = document.getElementById('workout-video-modal');
+            const workoutTitle = document.getElementById('workout-title');
+
+            workoutCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const title = card.dataset.title;
+                    workoutTitle.textContent = title;
+                    openModal(workoutVideoModal);
+                });
+            });
+
+            // --- Logika Tabungan ---
             const savingsCardTrigger = document.getElementById('savings-card-trigger');
             const addSavingsModal = document.getElementById('add-savings-modal');
             const addSavingsForm = document.getElementById('add-savings-form');
             const savingsAmountInput = document.getElementById('savings-amount');
-            let currentSavings = 4500000;
-            const targetSavings = 12000000;
+            const editSavingsModal = document.getElementById('edit-savings-modal');
+            const editSavingsTrigger = document.getElementById('edit-savings-trigger');
+            const editSavingsForm = document.getElementById('edit-savings-form');
+            
+            let currentSavings, targetSavings, savingsTargetName;
+
+            function loadSavingsData() {
+                currentSavings = parseInt(localStorage.getItem('ascenda-current-savings')) || 4500000;
+                targetSavings = parseInt(localStorage.getItem('ascenda-target-savings')) || 12000000;
+                savingsTargetName = localStorage.getItem('ascenda-savings-name') || "Tabungan Laptop Baru";
+                updateSavingsUI();
+            }
 
             function updateSavingsUI() {
                 const percentage = (currentSavings / targetSavings) * 100;
                 document.getElementById('savings-progress-bar').style.width = `${Math.min(percentage, 100)}%`;
                 document.getElementById('savings-progress-text').textContent = 
                     `${formatCurrency(currentSavings)} / ${formatCurrency(targetSavings)}`;
+                document.getElementById('savings-target-name-display').textContent = savingsTargetName;
             }
             
             savingsCardTrigger.addEventListener('click', () => openModal(addSavingsModal));
@@ -954,9 +1257,36 @@
                 const amount = parseInt(savingsAmountInput.value);
                 if (!isNaN(amount) && amount > 0) {
                     currentSavings += amount;
+                    localStorage.setItem('ascenda-current-savings', currentSavings);
                     updateSavingsUI();
                     savingsAmountInput.value = '';
                     closeModal(addSavingsModal);
+                }
+            });
+
+            editSavingsTrigger.addEventListener('click', () => {
+                document.getElementById('savings-target-name').value = savingsTargetName;
+                document.getElementById('savings-target-amount').value = targetSavings;
+                openModal(editSavingsModal);
+            });
+
+            editSavingsForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const newName = document.getElementById('savings-target-name').value;
+                const newTargetAmount = parseInt(document.getElementById('savings-target-amount').value);
+
+                if (newName && !isNaN(newTargetAmount) && newTargetAmount > 0) {
+                    savingsTargetName = newName;
+                    targetSavings = newTargetAmount;
+                    // Reset current savings if target is lowered below current
+                    if(currentSavings > targetSavings) {
+                        currentSavings = 0;
+                        localStorage.setItem('ascenda-current-savings', 0);
+                    }
+                    localStorage.setItem('ascenda-savings-name', savingsTargetName);
+                    localStorage.setItem('ascenda-target-savings', targetSavings);
+                    updateSavingsUI();
+                    closeModal(editSavingsModal);
                 }
             });
             
@@ -965,6 +1295,14 @@
             const createPostModal = document.getElementById('create-post-modal');
             const createPostTrigger = document.getElementById('create-post-trigger');
             const viewCommentsModal = document.getElementById('view-comments-modal');
+            
+            fabButton.addEventListener('click', () => {
+                if (swiper.activeIndex === 1) { // Jadwal page
+                    openModal(addScheduleModal);
+                } else if (swiper.activeIndex === 2) { // Komunitas page
+                    openModal(createPostModal);
+                }
+            });
 
             createPostTrigger.addEventListener('click', () => openModal(createPostModal));
             
